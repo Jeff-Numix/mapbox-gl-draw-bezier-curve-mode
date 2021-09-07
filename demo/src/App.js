@@ -150,6 +150,16 @@ function App() {
                 </div>
         }
       </div>
+      <div className="infobar">
+        <b>Controls</b><br/><br/>
+          In draw mode : <br/> 
+          - <b>Alt + Drag with left click</b> to create nodes with bezier handles.<br/> 
+          - <b>Left click</b> to create nodes without handles.<br/><br/>
+          In edit mode : <br/> 
+          - <b>Drag with Left click</b> on a handle to move it.<br/>
+          - <b>Alt + Drag with left click</b> on a handle to break handle symetry.<br/><br/> 
+          More details : <a href="https://github.com/Jeff-Numix/mapbox-gl-draw-bezier-curve-mode">See github repo</a><br/> <br/> 
+      </div>
       <div ref={mapContainer} className="map-container" />
     </div>
   );

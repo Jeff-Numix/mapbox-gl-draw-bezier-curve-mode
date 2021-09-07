@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-draw-bezier-curve-mode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A custom mode for MapboxGL-Draw to draw and edit bezier curves.",
   "keywords": [
     "bezier",

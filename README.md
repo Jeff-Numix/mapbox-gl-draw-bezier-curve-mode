@@ -153,6 +153,8 @@ More information about mapbox-gl-draw :
 # Changelog 
 ### v1.0.0
 * First version
+### v1.0.1
+* Demo project : Added an information box to display controls
 
 # Known issues
 ### v1.0.0 
