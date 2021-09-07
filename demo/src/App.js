@@ -14,14 +14,11 @@ import {
   customStyles,
 } from 'mapbox-gl-draw-bezier-curve-mode';
 
-
-// import                                      './mapbox-gl-draw-bezier-curve/icon/bezier-curve.css';
-
 import {extendDrawBar} from './utils/extendDrawBar.js';
 import {demoData} from './demoData.js';
 import { feature } from '@turf/turf';
 
-// Token for demo purpose, replace by your own
+// Token for demo purpose only, please replace by your own
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94LWdsLWRyYXctYmV6aWVyLWN1cnZlLWRlbW8iLCJhIjoiY2t0OXJyd2szMWV5MjJwbjlyNGtsOXVpdiJ9.Hom5aMPuxvSJUaiUynqIVA';
 
 function App() {
