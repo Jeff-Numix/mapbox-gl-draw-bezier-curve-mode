@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-draw-bezier-curve-mode",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A custom mode for MapboxGL-Draw to draw and edit bezier curves.",
   "keywords": [
     "bezier",
@@ -15,7 +15,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Jeff-Numix/mapbox-gl-draw-bezier-curve-mode.git"
-  },  
+  },
   "author": "Jeff Sebrechts",
   "license": "MIT",
   "main": "src/index.js",
