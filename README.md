@@ -1,4 +1,4 @@
-2.45# mapbox-gl-draw-bezier-curve-mode
+# mapbox-gl-draw-bezier-curve-mode
 
 A [mapbox gl draw](https://www.npmjs.com/package/@mapbox/mapbox-gl-draw) mode to draw and edit bezier curves.
 
