@@ -1,0 +1,49 @@
+{
+  "name": "mapbox-gl-draw-bezier-curve-demo",
+  "version": "1.0.0",
+  "description": "A demo react app to test Bezier Curve custom mode for MapboxGL-Draw ",
+  "author": "Jeff Sebrechts",
+  "license": "MIT",
+  "dependencies": {
+    "mapbox-gl-draw-bezier-curve-mode": "file:..",
+    "@mapbox/mapbox-gl-draw": "1.3.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@turf/turf": "^6.3.0",
+    "mapbox-gl": "^2.4.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "postinstall": "patch-package"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0"
+  }
+}

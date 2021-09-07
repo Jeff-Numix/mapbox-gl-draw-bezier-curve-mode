@@ -1,0 +1,6 @@
+.bezier-curve-icon {
+    background-image: url('./bezier-curve.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+  }
