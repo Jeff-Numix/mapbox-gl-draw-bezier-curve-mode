@@ -140,6 +140,13 @@ DirectModeBezierOverride.onMidpoint = function(state, e) {
     state.selectedCoordPaths = [newCoordPath];
     const selectedCoordinates = this.pathsToCoordinates(state.featureId, state.selectedCoordPaths);
     this.setSelectedCoordinates(selectedCoordinates);
+  } else {
+    // IF NOT A BEZIER GROUP : classic handling
+    this.startDragging(state, e);
+    const about = e.featureTarget.properties;
+    state.feature.addCoordinate(about.coord_path, about.lng, about.lat);
+    this.fireUpdate();
+    state.selectedCoordPaths = [about.coord_path];
   }
 };
 
