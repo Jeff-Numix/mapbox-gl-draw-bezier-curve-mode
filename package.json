@@ -23,7 +23,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mapbox-gl": "^2.4.0",
     "@mapbox/mapbox-gl-draw": "^1.4.3",
     "mathjs": "^9.4.4"
   }
