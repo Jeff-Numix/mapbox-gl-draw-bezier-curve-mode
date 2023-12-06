@@ -1,4 +1,5 @@
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+const Constants = MapboxDraw.constants;
 
 export default function createBezierHandle(parentId, coordinates, path, selected) {
   return {

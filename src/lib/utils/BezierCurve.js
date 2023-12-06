@@ -1,4 +1,5 @@
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+const Constants = MapboxDraw.constants;
 import {mirrorHandle, bezierCurve4pts} from './bezierUtils';
 import {random} from 'mathjs';
 
