@@ -1,7 +1,8 @@
-import * as CommonSelectors from '@mapbox/mapbox-gl-draw/src/lib/common_selectors';
-import doubleClickZoom from '@mapbox/mapbox-gl-draw/src/lib/double_click_zoom';
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
-import createVertex from '@mapbox/mapbox-gl-draw/src/lib/create_vertex';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+const CommonSelectors = MapboxDraw.lib.CommonSelectors;
+const Constants = MapboxDraw.constants;
+const createVertex = MapboxDraw.lib.createVertex;
+const doubleClickZoom = MapboxDraw.lib.doubleClickZoom;
 
 import BezierGroup from '../utils/BezierGroup';
 import BezierCurve from '../utils/BezierCurve';

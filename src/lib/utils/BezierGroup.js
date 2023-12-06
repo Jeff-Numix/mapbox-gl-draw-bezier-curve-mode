@@ -1,4 +1,5 @@
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+const Constants = MapboxDraw.constants;
 import BezierCurve from './BezierCurve';
 import BezierNode from './BezierNode';
 

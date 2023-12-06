@@ -1,4 +1,5 @@
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+const Constants = MapboxDraw.constants;
 import {distance, abs} from 'mathjs';
 
 import createBezierControlPoint from './createBezierPoint';

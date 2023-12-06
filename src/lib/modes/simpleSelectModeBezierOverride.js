@@ -1,7 +1,7 @@
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import createSupplementaryPoints from '@mapbox/mapbox-gl-draw/src/lib/create_supplementary_points';
-import moveFeatures from '@mapbox/mapbox-gl-draw/src/lib/move_features';
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
+const Constants = MapboxDraw.constants;
+const createSupplementaryPoints = MapboxDraw.lib.createSupplementaryPoints;
+const moveFeatures = MapboxDraw.lib.moveFeatures;
 
 import dragBezierPoints from '../utils/dragBezierPoints';
 import createSupplementaryPointsForBezier from '../utils/createSupplementaryPointsForBezier';

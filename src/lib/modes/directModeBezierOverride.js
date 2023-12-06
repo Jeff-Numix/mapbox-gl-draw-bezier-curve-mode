@@ -1,11 +1,10 @@
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import createSupplementaryPoints from '@mapbox/mapbox-gl-draw/src/lib/create_supplementary_points';
-import moveFeatures from '@mapbox/mapbox-gl-draw/src/lib/move_features';
-import * as Constants from '@mapbox/mapbox-gl-draw/src/constants';
-import constrainFeatureMovement from '@mapbox/mapbox-gl-draw/src/lib/constrain_feature_movement';
-import {isOfMetaType, isActiveFeature, isShiftDown} from '@mapbox/mapbox-gl-draw/src/lib/common_selectors';
-import doubleClickZoom from '@mapbox/mapbox-gl-draw/src/lib/double_click_zoom';
-// import {noTarget, , isActiveFeature, isInactiveFeature, isShiftDown} from '@mapbox/mapbox-gl-draw/src/lib/common_selectors';
+const CommonSelectors = MapboxDraw.lib.CommonSelectors;
+const Constants = MapboxDraw.constants;
+const constrainFeatureMovement = MapboxDraw.lib.constrainFeatureMovement;
+const createSupplementaryPoints = MapboxDraw.lib.createSupplementaryPoints;
+const doubleClickZoom = MapboxDraw.lib.doubleClickZoom;
+const moveFeatures = MapboxDraw.lib.moveFeatures;
 
 import dragBezierPoints from '../utils/dragBezierPoints';
 import {mirrorHandle} from '../utils/bezierUtils';
@@ -16,8 +15,8 @@ import BezierGroup from '../utils/BezierGroup';
 import BezierNode from '../utils/BezierNode';
 
 const DirectModeBezierOverride = MapboxDraw.modes.direct_select;
-const isVertex = isOfMetaType(Constants.meta.VERTEX);
-const isMidpoint = isOfMetaType(Constants.meta.MIDPOINT);
+const isVertex = CommonSelectors.isOfMetaType(Constants.meta.VERTEX);
+const isMidpoint = CommonSelectors.isOfMetaType(Constants.meta.MIDPOINT);
 let draw=null;
 
 DirectModeBezierOverride.onSetup = function(opts) {
@@ -91,7 +90,7 @@ DirectModeBezierOverride.onVertex = function (state, e) {
         state.breakHandleSymetry=true;
       } 
       // Reenable handle Symetry with Shift
-      else if (isShiftDown(e)){
+      else if (CommonSelectors.isShiftDown(e)){
         if(node){
           if(node.handle2){
             // if handle 2 was selected, copy inverse to handle 1
@@ -109,9 +108,9 @@ DirectModeBezierOverride.onVertex = function (state, e) {
 
   //Select Vertex 
   const selectedIndex = state.selectedCoordPaths.indexOf(props.coord_path);
-  if (!isShiftDown(e) && selectedIndex === -1) {
+  if (!CommonSelectors.isShiftDown(e) && selectedIndex === -1) {
     state.selectedCoordPaths = [props.coord_path];
-  } else if (isShiftDown(e) && selectedIndex === -1) {
+  } else if (CommonSelectors.isShiftDown(e) && selectedIndex === -1) {
     state.selectedCoordPaths.push(props.coord_path);
   }
 
@@ -280,7 +279,7 @@ DirectModeBezierOverride.onTrash = function(state) {
 
 DirectModeBezierOverride.onMouseMove = function(state, e) {
   // On mousemove that is not a drag, stop vertex movement.
-  const isFeature = isActiveFeature(e);
+  const isFeature = CommonSelectors.isActiveFeature(e);
   const onVertex = isVertex(e);
   const onMidpoint = isMidpoint(e);
   
