@@ -103,7 +103,11 @@ Uncombine it in **simple_select mode** to be able to move each curve independent
 
 # Installation
 ## To Install: 
+#### Yarn:
     yarn add mapbox-gl-draw-bezier-curve-mode
+#### Npm:
+    npm install mapbox-gl-draw-bezier-curve-mode
+    
 ## To Use:
 ```js
 import {
