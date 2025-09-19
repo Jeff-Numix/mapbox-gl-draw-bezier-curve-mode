@@ -59,8 +59,8 @@ function App() {
     ////////////////////////////////////////////////
     // Add DrawBar
     ////////////////////////////////////////////////
-    // const drawLineString =     {on: "click", action: () => {draw.changeMode("draw_line_string")}, classes: ["mapbox-gl-draw_line"], title:'Polygon tool'};
-    // const drawPolygon =  {on: "click", action: () => {draw.changeMode("draw_polygon")}, classes: ["mapbox-gl-draw_polygon"], title:'LineString tool'};
+    const drawLineString =     {on: "click", action: () => {draw.changeMode("draw_line_string")}, classes: ["mapbox-gl-draw_line"], title:'LineString tool'};
+    const drawPolygon =  {on: "click", action: () => {draw.changeMode("draw_polygon")}, classes: ["mapbox-gl-draw_polygon"], title:'Polygon tool'};
     const drawBezierBtn =   {on: "click", action: () => {draw.changeMode("draw_bezier_curve")}, classes: ["bezier-curve-icon"], title:'Bezier tool'};
     const drawPointBtn =    {on: "click", action: () => {draw.changeMode("draw_point")}, classes: ["mapbox-gl-draw_point"], title:'Marker tool'};
     const trashBtn =        {on: "click", action: () => {draw.trash()}, classes: ["mapbox-gl-draw_trash"], title:'Delete'};
@@ -70,9 +70,9 @@ function App() {
     let drawBar = new extendDrawBar({
       draw: draw,
       buttons: [
-        // drawLineString,
-        // drawPolygon,
         drawBezierBtn,
+        drawLineString,
+        drawPolygon,
         drawPointBtn,
         trashBtn,
         combineBtn,
