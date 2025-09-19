@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-draw-bezier-curve-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A demo react app to test Bezier Curve custom mode for MapboxGL-Draw ",
   "author": "Jeff Sebrechts",
   "license": "MIT",
