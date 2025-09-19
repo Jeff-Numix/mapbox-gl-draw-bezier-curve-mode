@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "mapbox-gl-draw-bezier-curve-mode": "file:..",
-    "@mapbox/mapbox-gl-draw": "^1.4.3",
+    "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -21,8 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "patch-package"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -43,7 +42,6 @@
     ]
   },
   "devDependencies": {
-    "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0"
   }
 }

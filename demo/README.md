@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Requirements
+- Node 22 LTS recommended
+
 ## Install dependencies
 Run `yarn install` to install  dependencies.
 
