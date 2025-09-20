@@ -29,6 +29,9 @@ DrawBezierCurve.onSetup = function(opts) {
   let direction = 'forward';
  
   const bezierGroup = new BezierGroup([new BezierCurve()]);
+  if (opts.isPolygon === true) {
+    bezierGroup.isPolygon = true;
+  }
 
   line = this.newFeature(bezierGroup.geojson);
 
@@ -46,7 +49,8 @@ DrawBezierCurve.onSetup = function(opts) {
   const state = {
     line,
     direction,
-    lastMouseOverVertexPath
+    lastMouseOverVertexPath,
+    isPolygon: opts.isPolygon === true
   };
   return state;
 };
@@ -220,7 +224,43 @@ DrawBezierCurve.onStop = function(state) {
   const bezierGroup = getBezierGroup(state);
   const bezierCurve = bezierGroup.bezierCurves[0];
   bezierCurve.removeLastNode();
-  bezierGroup.refreshFeature(state.line);
+  // Auto-close at end of creation for polygon mode if not manually closed
+  if (state.isPolygon === true && !bezierCurve.closed) {
+    if (bezierCurve.nodes.length >= 3) {
+      bezierCurve.closed = true;
+    }
+  }
+  // If polygon mode and the curve is closed, convert to Polygon feature for fill styling
+  if (state.isPolygon === true && bezierCurve.closed) {
+    // Build ring from vertices
+    const ring = bezierCurve.vertices.slice();
+    if (ring.length > 0) {
+      const first = ring[0];
+      const last = ring[ring.length - 1];
+      if (first[0] !== last[0] || first[1] !== last[1]) {
+        ring.push(first);
+      }
+    }
+    // Persist bezierGroup on the new feature
+    const polygonFeature = this.newFeature({
+      type: Constants.geojsonTypes.FEATURE,
+      properties: { ...state.line.properties, bezierGroup: bezierGroup, user_bezierGroup: bezierGroup },
+      geometry: {
+        type: Constants.geojsonTypes.POLYGON,
+        coordinates: [ring]
+      }
+    });
+    this.addFeature(polygonFeature);
+    // Do NOT select immediately to avoid Draw's Polygon selected-coords machinery
+    this.setSelectedCoordinates([]);
+    this.clearSelectedCoordinates();
+    this.clearSelectedFeatures && this.clearSelectedFeatures();
+    this.deleteFeature(state.line.id, { silent: true });
+    state.line = polygonFeature;
+    
+  } else {
+    bezierGroup.refreshFeature(state.line);
+  }
   if (state.line.isValid()) {
     this.map.fire(Constants.events.CREATE, {
       features: [state.line.toGeoJSON()]
@@ -296,7 +336,7 @@ function getBezierGroup(state) {
   let bezierGroupFromProps = state.line.properties.bezierGroup;
   if(bezierGroupFromProps == null) return  null;
    // recreate bezier group from itself to ensure it has the functions : Bezier Group from the props has no functions
-  bezierGroupFromProps = new BezierGroup(bezierGroupFromProps.bezierCurves);
+  bezierGroupFromProps = new BezierGroup(bezierGroupFromProps.bezierCurves, bezierGroupFromProps.isPolygon);
   return bezierGroupFromProps; 
 }
 

@@ -3,4 +3,10 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 60%;
-  }
+}
+.bezier-polygon-icon {
+  background-image: url('./bezier-polygon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+}

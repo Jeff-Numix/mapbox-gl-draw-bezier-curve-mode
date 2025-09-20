@@ -62,6 +62,7 @@ function App() {
     const drawLineString =     {on: "click", action: () => {draw.changeMode("draw_line_string")}, classes: ["mapbox-gl-draw_line"], title:'LineString tool'};
     const drawPolygon =  {on: "click", action: () => {draw.changeMode("draw_polygon")}, classes: ["mapbox-gl-draw_polygon"], title:'Polygon tool'};
     const drawBezierBtn =   {on: "click", action: () => {draw.changeMode("draw_bezier_curve")}, classes: ["bezier-curve-icon"], title:'Bezier tool'};
+    const drawBezierPolygonBtn =   {on: "click", action: () => {draw.changeMode("draw_bezier_curve", { isPolygon: true })}, classes: ["bezier-polygon-icon"], title:'Bezier polygon tool'};
     const drawPointBtn =    {on: "click", action: () => {draw.changeMode("draw_point")}, classes: ["mapbox-gl-draw_point"], title:'Marker tool'};
     const trashBtn =        {on: "click", action: () => {draw.trash()}, classes: ["mapbox-gl-draw_trash"], title:'Delete'};
     const combineBtn =      {on: "click", action: () => {draw.combineFeatures()}, classes: ["mapbox-gl-draw_combine"], title:'Combine'};
@@ -71,6 +72,7 @@ function App() {
       draw: draw,
       buttons: [
         drawBezierBtn,
+        drawBezierPolygonBtn,
         drawLineString,
         drawPolygon,
         drawPointBtn,
@@ -178,7 +180,9 @@ function refreshSelectionType(e, setSelectionType) {
     }
     else if(feature1.properties.bezierGroup){
       const bezierGroup = feature1.properties.bezierGroup;// without functions
+      const isPolygon = bezierGroup.isPolygon === true;
       let typeString = (bezierGroup.bezierCurves.length>1 ? `${ftype}(${bezierGroup.bezierCurves.length})` : `${ftype}`);
+      typeString += ` | isPolygon: ${isPolygon}`;
       typeString += " Length: " + getBezierLength(features);
       setSelectionType(typeString);
     }
@@ -192,10 +196,19 @@ function refreshSelectionType(e, setSelectionType) {
 }
 
 function getBezierLength(features){
-  let distKm=0
-  features.forEach(feature => {
-    if(feature.geometry){
-      distKm += turf.length(feature.geometry, 'kilometers');
+  let distKm = 0;
+  features.forEach((f) => {
+    try {
+      if (!f || !f.geometry) return;
+      const t = f.geometry.type;
+      if (t === 'LineString' || t === 'MultiLineString') {
+        distKm += turf.length(f, { units: 'kilometers' });
+      } else if (t === 'Polygon' || t === 'MultiPolygon') {
+        const line = turf.polygonToLine(f);
+        distKm += turf.length(line, { units: 'kilometers' });
+      }
+    } catch (_) {
+      // Ignore transient invalid geometries while dragging
     }
   });
   if(distKm <0.001) return `${(distKm*100000).toLocaleString(undefined, { maximumFractionDigits: 2 })} cm`;

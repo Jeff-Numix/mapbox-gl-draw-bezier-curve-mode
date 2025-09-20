@@ -41,7 +41,12 @@ DirectModeBezierOverride.onSetup = function(opts) {
     selectedCoordPaths: opts.coordPath ? [opts.coordPath] : []
   };
 
-  this.setSelectedCoordinates(this.pathsToCoordinates(featureId, state.selectedCoordPaths));
+  const bgProps = feature && feature.properties ? (feature.properties.bezierGroup || feature.properties.user_bezierGroup) : null;
+  if (bgProps) {
+    this.setSelectedCoordinates([]);
+  } else {
+    this.setSelectedCoordinates(this.pathsToCoordinates(featureId, state.selectedCoordPaths));
+  }
   this.setSelected(featureId);
   doubleClickZoom.disable(this);
 
@@ -50,6 +55,17 @@ DirectModeBezierOverride.onSetup = function(opts) {
   });
 
   return state;
+};
+
+// Intercept Draw's coord-path resolution when dealing with Bezier features
+const originalPathsToCoordinates_Direct = MapboxDraw.modes.direct_select.pathsToCoordinates;
+DirectModeBezierOverride.pathsToCoordinates = function(featureId, selectedCoordPaths) {
+  const feature = this.getFeature(featureId);
+  const bgProps = feature && feature.properties ? (feature.properties.bezierGroup || feature.properties.user_bezierGroup) : null;
+  if (bgProps) {
+    return (selectedCoordPaths || []).map((cp) => ({ feature_id: featureId, coord_path: cp }));
+  }
+  return originalPathsToCoordinates_Direct.call(this, featureId, selectedCoordPaths);
 };
 
 DirectModeBezierOverride.onVertex = function (state, e) {
@@ -115,7 +131,7 @@ DirectModeBezierOverride.onVertex = function (state, e) {
   }
 
   const selectedCoordinates = this.pathsToCoordinates(state.featureId, state.selectedCoordPaths);
-  this.setSelectedCoordinates(selectedCoordinates);
+  if (getBezierGroup(state)) this.setSelectedCoordinates([]); else this.setSelectedCoordinates(selectedCoordinates);
 };
 
 DirectModeBezierOverride.onMidpoint = function(state, e) {
@@ -137,8 +153,8 @@ DirectModeBezierOverride.onMidpoint = function(state, e) {
 
     this.fireUpdate();
     state.selectedCoordPaths = [newCoordPath];
-    const selectedCoordinates = this.pathsToCoordinates(state.featureId, state.selectedCoordPaths);
-    this.setSelectedCoordinates(selectedCoordinates);
+    // For Bezier-backed features (Polygon geometry), avoid Draw's coord-path machinery
+    this.setSelectedCoordinates([]);
   } else {
     // IF NOT A BEZIER GROUP : classic handling
     this.startDragging(state, e);
@@ -326,7 +342,7 @@ DirectModeBezierOverride.onCombineFeatures = function(state) {
   state.selectedCoordPaths = [];
  
   const selectedCoordinates = this.pathsToCoordinates(state.featureId, state.selectedCoordPaths);
-  this.setSelectedCoordinates(selectedCoordinates);
+  if (bezierGroup) this.setSelectedCoordinates([]); else this.setSelectedCoordinates(selectedCoordinates);
   this.fireActionable(state);
   if (state.feature.isValid() === false) {
     this.deleteFeature([state.featureId]);

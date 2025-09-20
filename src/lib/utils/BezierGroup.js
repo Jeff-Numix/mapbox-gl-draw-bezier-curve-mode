@@ -5,7 +5,7 @@ import BezierNode from './BezierNode';
 
 export default class BezierGroup {
 
-    constructor(bezierCurves=[]) {
+    constructor(bezierCurves=[], isPolygon=false) {
         // by instanciating new BezierCurves it will keep all its functions.
         // Because if we use bezierCurves directly it will lose all its functions in some cases.
         const newBezierCurves = [];
@@ -14,6 +14,7 @@ export default class BezierGroup {
         });
 
         this.bezierCurves = newBezierCurves;
+        this.isPolygon = isPolygon === true;
     }
 
     get vertices(){
@@ -57,18 +58,44 @@ export default class BezierGroup {
     refreshFeature(feature, draw=null, forceRecreateFeature = false){
 
         if(forceRecreateFeature && draw!=null){
-            // Generate new feature & delete old one
-            const newFeature = draw.newFeature(this.geojson);
+            // Generate new feature matching current geometry type & delete old one
+            let newGeojson;
+            if (feature.type === Constants.geojsonTypes.POLYGON) {
+                // Build closed ring from bezier vertices
+                const verts = Array.isArray(this.vertices) ? this.vertices.slice() : [];
+                if (verts.length > 0) {
+                    const first = verts[0];
+                    const last = verts[verts.length - 1];
+                    if (first[0] !== last[0] || first[1] !== last[1]) verts.push(first);
+                }
+                newGeojson = {
+                    type: Constants.geojsonTypes.FEATURE,
+                    properties: { ...feature.properties, bezierGroup: this, user_bezierGroup: feature.properties.user_bezierGroup || this },
+                    geometry: { type: Constants.geojsonTypes.POLYGON, coordinates: [verts] }
+                };
+            } else {
+                newGeojson = this.geojson;
+            }
+            const newFeature = draw.newFeature(newGeojson);
             draw.addFeature(newFeature);
-            newFeature.properties = feature.properties;
-            newFeature.properties.bezierGroup = this;
+            newFeature.properties = newGeojson.properties;
             draw.select([newFeature.id]);
             draw.deleteFeature(feature.id, { silent: true });
             return newFeature;
         }
         else {
-            // Juste update feature
-            feature.incomingCoords(this.vertices);
+            // Just update feature geometry in-place according to its type
+            if (feature.type === Constants.geojsonTypes.POLYGON) {
+                const verts = Array.isArray(this.vertices) ? this.vertices.slice() : [];
+                if (verts.length > 0) {
+                    const first = verts[0];
+                    const last = verts[verts.length - 1];
+                    if (first[0] !== last[0] || first[1] !== last[1]) verts.push(first);
+                }
+                feature.incomingCoords([verts]);
+            } else {
+                feature.incomingCoords(this.vertices);
+            }
             feature.properties.bezierGroup=this;
             return feature;
         }
