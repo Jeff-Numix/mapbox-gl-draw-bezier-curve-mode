@@ -70,6 +70,16 @@ Select a node and hit **Delete key**
 
 ---
 
+## Bezier Polygon mode
+
+![Demo](demo/md-resources/bezier-polygon-tool-icon.png)
+
+In addition to Bezier lines, a filled Bezier Polygon variant is available. Use the same draw mode with an option flag:
+See the "To Use" section below for a concise code example.
+
+- Closed Bezier polygons are converted to standard Mapbox GL Draw Polygon features so fill is rendered consistently.
+- Bezier polygons are editable like Bezier lines (move points/handles, insert midpoints).
+
 ## Combine/Uncombine extended support
 Combining / uncombining bezier curves is supported. In Direct mode there are some additional features :
 
@@ -137,6 +147,12 @@ var map = new mapboxgl.Map({
 });
 
 map.addControl(Draw)
+
+// Bezier line (default)
+draw.changeMode('draw_bezier_curve');
+
+// Bezier polygon (auto-closes when ≥ 3 points, renders with fill)
+draw.changeMode('draw_bezier_curve', { isPolygon: true });
 ```
 
 See [demo](https://github.com/Jeff-Numix/mapbox-gl-draw-bezier-curve-mode/tree/master/demo) package for a full example.
@@ -155,6 +171,9 @@ More information about mapbox-gl-draw :
 
 
 # Changelog 
+### v1.1.0
+* Add Bezier Polygon mode via single draw mode: `draw.changeMode('draw_bezier_curve', { isPolygon: true })`
+
 ### v1.0.0
 * First version
 ### v1.0.1
