@@ -157,6 +157,10 @@ draw.changeMode('draw_bezier_curve', { isPolygon: true });
 
 See [demo](https://github.com/Jeff-Numix/mapbox-gl-draw-bezier-curve-mode/tree/master/demo) package for a full example.
 
+### Run the demo locally
+
+From the `demo` folder: install dependencies, then configure your Mapbox token (see [demo/README.md](demo/README.md#mapbox-access-token) — copy `.env.example` to `.env` and set `REACT_APP_MAPBOX_ACCESS_TOKEN`).
+
 More information about mapbox-gl-draw :
 * [API](https://github.com/mapbox/mapbox-gl-draw/blob/main/docs/API.md)
 * [Draw Modes](https://github.com/mapbox/mapbox-gl-draw/blob/main/docs/MODES.md)

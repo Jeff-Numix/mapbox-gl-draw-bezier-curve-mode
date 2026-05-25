@@ -6,7 +6,26 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Node 22 LTS recommended
 
 ## Install dependencies
-Run `yarn install` to install  dependencies.
+Run `yarn install` to install dependencies.
+
+### Mapbox access token
+
+The demo requires a Mapbox access token. Do not commit your token to the repository.
+
+1. Copy the example env file:
+   ```bash
+   cp .env.example .env
+   ```
+   On Windows (PowerShell): `Copy-Item .env.example .env`
+
+2. Open `.env` and replace `your_mapbox_access_token_here` with your token:
+   ```
+   REACT_APP_MAPBOX_ACCESS_TOKEN=pk.your_token_here
+   ```
+
+3. Restart the dev server if it is already running (`yarn start`).
+
+**How to get a token:** create a free account at [mapbox.com](https://account.mapbox.com/auth/signup/), then open [Access tokens](https://account.mapbox.com/access-tokens/) in your account dashboard. Copy your **Default public token** (starts with `pk.`) or create a new public token with the scopes you need.
 
 ## Available Scripts
 

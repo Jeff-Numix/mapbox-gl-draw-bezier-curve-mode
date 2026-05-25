@@ -18,8 +18,13 @@ import {extendDrawBar} from './utils/extendDrawBar.js';
 import {demoData} from './demoData.js';
 import { feature } from '@turf/turf';
 
-// Token for demo purpose only, please replace by your own
-mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94LWdsLWRyYXctYmV6aWVyLWN1cnZlLWRlbW8iLCJhIjoiY2t0OXJyd2szMWV5MjJwbjlyNGtsOXVpdiJ9.Hom5aMPuxvSJUaiUynqIVA';
+const mapboxAccessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+if (!mapboxAccessToken) {
+  throw new Error(
+    'Missing REACT_APP_MAPBOX_ACCESS_TOKEN. Copy .env.example to .env and set your Mapbox access token.'
+  );
+}
+mapboxgl.accessToken = mapboxAccessToken;
 
 function App() {
   
